@@ -1,3 +1,0 @@
-require board=Brandy
-require version-bootloader=*
-require version-baseband=*
