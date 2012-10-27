@@ -17,28 +17,6 @@
 LOCAL_PATH := $(call my-dir)
 
 #----------------------------------------------------------------------
-# Compile (L)ittle (K)ernel bootloader and the nandwrite utility
-#----------------------------------------------------------------------
-ifneq ($(strip $(TARGET_NO_BOOTLOADER)),true)
-
-# Compile
-include bootable/bootloader/lk/AndroidBoot.mk
-
-INSTALLED_BOOTLOADER_TARGET := $(PRODUCT_OUT)/bootloader
-file := $(INSTALLED_BOOTLOADER_TARGET)
-ALL_PREBUILT += $(file)
-$(file): $(TARGET_BOOTLOADER) | $(ACP)
-	$(transform-prebuilt-to-target)
-
-# Copy nandwrite utility to target out directory
-INSTALLED_NANDWRITE_TARGET := $(PRODUCT_OUT)/nandwrite
-file := $(INSTALLED_NANDWRITE_TARGET)
-ALL_PREBUILT += $(file)
-$(file) : $(TARGET_NANDWRITE) | $(ACP)
-	$(transform-prebuilt-to-target)
-endif
-
-#----------------------------------------------------------------------
 # Compile Linux Kernel
 #----------------------------------------------------------------------
 ifeq ($(KERNEL_DEFCONFIG),)
@@ -76,9 +54,7 @@ ALL_PREBUILT += $(file)
 $(file) : $(LOCAL_PATH)/vold.fstab | $(ACP)
 	$(transform-prebuilt-to-target)
 
-ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
-file := $(TARGET_OUT)/etc/wifi/wpa_supplicant.conf
+file := $(TARGET_OUT)/etc/AutoVolumeControl.txt
 ALL_PREBUILT += $(file)
-$(file) : $(LOCAL_PATH)/wpa_supplicant.conf | $(ACP)
+$(file) : $(LOCAL_PATH)/AutoVolumeControl.txt | $(ACP)
 	$(transform-prebuilt-to-target)
-endif
